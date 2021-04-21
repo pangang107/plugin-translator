@@ -1,27 +1,26 @@
 {
-    "name": "Translator",
+    "name": "Translators",
     "nameLocale": {
         "ru": "Переводчик",
         "fr": "Traducteur",
         "es": "Traductor",
         "de": "Übersetzer"
     },
-    "guid": "asc.{7327FC95-16DA-41D9-9AF2-0E7F449F6800}",
+    "guid": "asc.{f6df7292-617b-4a97-8f1c-1bcd6e786a60}",
     "version": "1.0",
 
     "variations": [
         {
-            "description": "Translator",
+            "description": "Translators",
             "descriptionLocale": {
-                "ru": "Переводчик",
+                "ru": "Переводчики",
                 "fr": "Traducteur",
                 "es": "Traductor",
                 "de": "Übersetzer"
             },
             "url": "index.html",
 
-            "icons": [ "resources/img/icon.png", "resources/img/icon@2x.png" ],
-            "icons2": [
+            "icons": [
 			{
 				"100%": { "normal": "resources/img/icon.png" },
 				"150%": { "normal": "resources/img/icon@1.5x.png" },

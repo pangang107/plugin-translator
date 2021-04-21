@@ -4,7 +4,14 @@
 	<meta charset="UTF-8">
 	<title>translate</title>
     <script type="text/javascript" src="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.js"></script>
-	<script src="scripts/translate.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.js"></script>
+	<script type="text/javascript" src="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins-ui.js"></script>
+	<link rel="stylesheet" href="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.css">
+    <link rel="stylesheet" href="vendor/select2-4.0.6-rc.1/dist/css/select2.css"/>
+    <script src="vendor/select2-4.0.6-rc.1/dist/js/select2.js"></script>
+	<link rel="stylesheet" href="resources/css/plugin_style.css">
+	<script src="scripts/translators.js"></script>
 	<style>
 		html, body {
 			width: 100%;
@@ -13,6 +20,140 @@
 	</style>
 </head>
 <body id="body" style="left:0px; top:0px; margin:0px; padding:0px;">
-	<div id="iframe_parent" style="width:100%; height:100%;margin:0;padding:0"></div>
+	<div id="select-service" style="margin: 16px 12px 12px 16px; display: flex; flex-direction: column;">
+		<label style="margin-bottom: 2px;">Translation service</label>
+		<select id="translate-services" class="select_example" data-id="translator-service-id" title="Locale">
+			<option value="google" data-id="translator-google">
+				Google Translate
+		  	</option>
+			<option value="deepl" data-id="translator-deepl">
+				DeepL
+		  	</option>
+			<option value="apertium" data-id="translator-aperium">
+				Apertium
+		  	</option>
+		</select>
+		<button onсlick="" id="save-service" class="btn-text-default" style="margin-top: 16px;">Save</button>
+	</div>
+	<div id="deepl-apertium-container" style="display:none;">
+		<div id="loader-container" class="asc-plugin-loader display-none">
+			<div class="asc-loader-image">
+				<div class="asc-loader-title"></div>
+			</div>
+			<div class="asc-loader-title">
+				Translating...
+			</div>
+    	</div>
+		<div id="loader-container2" class="asc-plugin-loader display-none">
+			<div class="asc-loader-image">
+				<div class="asc-loader-title"></div>
+			</div>
+			<div class="asc-loader-title">
+				Loading languages...
+			</div>
+    	</div>
+		<div id="main_panel">
+			<div id="apertium-panel" class="input__head display-none" style="display: flex; flex-direction: row; justify-content: space-between;">
+				<span style="width: calc(40% + 2px);"><select id="apertium-source" class="select_example language" data-title-id="locale" title="Locale">
+					</select>
+				</span>
+				<span style="display:flex;">
+					<img id="arrow-light" style="align-self:center; display: none;" src="resources/light/arrow.png">
+					<img id="arrow-dark" style="align-self:center; display: none;" src="resources/dark/arrow.png">
+				</span>
+				<span style="width: calc(40% + 2px);"><select id="apertium-target" class="select_example language" data-title-id="locale" title="Locale">
+					</select>
+				</span>
+			</div>
+			<div id="deepl-panel" class="input__head display-none" style="display: flex; flex-direction:column;">
+				<div id="api-panel">
+					<div><span>To use DeepL, subscribe to DeepL API plan in the official DeepL website. Copy the API key and insert it in the specified field.</span> <a target="_blank" href="https://github.com/ONLYOFFICE/plugin-deepl/tree/develop#configuration">Learn more here.</a></div>
+					<div style="margin: 16px 0 4px 0; font-weight: normal !important;">
+						<label>API key</label>
+					</div>
+					<input type="text" id="api-value" class="form-control" placeholder="Enter your DeepL API key" style="width: 100%; text-align: left;">
+					<button onсlick="" id="save" class="btn-text-default">Save</button>
+				</div>
+				<div id="language-panel" style="display:none">
+					<div style="margin: 0 0 4px 0;">
+						<label class="header">Target language</label>
+					</div>
+					<span class="prefs__locale"><select id="deepl-target" class="prefs__set-locale select_example language" data-title-id="locale" title="Locale">
+						<option value="DE" data-text-id="locale-de">
+						  German
+						</option>
+						<option selected="selected" value="EN-GB" data-text-id="locale-en-GB">
+						  English-GB
+						</option>
+						<option value="EN-US" data-text-id="locale-en-US">
+						  English-US
+						</option>
+						<option value="FR" data-text-id="locale-fr">
+						  French
+						</option>
+						<option value="IT" data-text-id="locale-it">
+						  Italian
+						</option>
+						<option value="JA" data-text-id="locale-ja">
+						  Japanese
+						</option>
+						<option value="ES" data-text-id="locale-es">
+						  Spanish
+						</option>
+						<option value="NL" data-text-id="locale-nl">
+						  Dutch
+						</option>
+						<option value="PL" data-text-id="locale-pl">
+						  Polish
+						</option>
+						<option value="PT-PT" data-text-id="locale-pt-PT">
+						  Portuguese PT
+						</option>
+						<option value="PT-BR" data-text-id="locale-pt-BR">
+						  Portuguese PT
+						</option>
+						<option value="RU" data-text-id="locale-ru">
+						  Russian
+						</option>
+						<option value="ZH" data-text-id="locale-zh">
+						  Chinese
+						</option>
+					</select>
+					</span>
+				</div>
+			</div>
+
+			<!-- below is common for apertium and deepl-->
+			<div id="common-elements" style="display:none">
+				<div id="hide_show"><label style="display:none;" id="hide_manually">Hide input text area</label><label id="show_manually">Enter text manually</label></div>
+				<div id="enter_container" style="margin: 0px 12px 0px 12px; display:none;">
+					<textarea id="textarea" class="form-control" spellcheck="false" style="width: 100%; resize: none; height: 100px;"></textarea>
+				</div>
+				<div class="separator horizontal" style="width: calc(100% - 24px); margin: 16px 0 16px 12px;"></div>
+				<div id="display" style="width: calc(100% - 12px); position: relative; ">
+					<div id="txt_shower" style="width:calc(100% - 20px); margin-right:8px; word-break: break-all;">
+
+					</div>
+				</div>
+				<div id="vanish_container" class="display-none">
+					<div id="button_wrapper">
+						<div onсlick="" id="copy" class="btn-text-default">Copy</div>
+						<div onсlick="" id="paste" class="btn-text-default">Replace</div>
+					</div>
+				</div>
+			</div>
+			<!-- deepl reconf button-->
+			<div id="re-api" class="display-none" style="position: absolute; bottom: 10px;">
+				<label id="reconf">Reconfigure API key</label>
+			</div>
+			<!-- common-->
+			<div id="change-service-container"  class="display-none" style="position: absolute; bottom: 10px; right: 12px; text-align: right;">
+				<label id="change-service-label">Change service</label>
+			</div>
+		</div>
+	</div>
+
+	<!-- iframe container for google translate-->
+	<div id="ifr-google-container" style="width:100%; height:100%;margin:0;padding:0; display:none;"></div>
 </body>
 </html>
