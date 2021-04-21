@@ -1,0 +1,48 @@
+<!--
+ (c) Copyright Ascensio System SIA 2020
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <script type="text/javascript" src="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.js"></script>
+	<link rel="stylesheet" href="https://onlyoffice.github.io/sdkjs-plugins/v1/plugins.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="vendor/select2-4.0.6-rc.1/dist/css/select2.css"/>
+	<script src="vendor/select2-4.0.6-rc.1/dist/js/select2.js"></script>
+	<script src="scripts/select_service.js"></script>
+	<link rel="stylesheet" href="resources/css/plugin_style.css">
+    <style>
+	</style>
+</head>
+<body style="padding-left: 20px; padding-right: 20px">
+	<div id="select-service" style="margin: 16px 12px 12px 16px; display: flex; flex-direction: column;">
+		<label style="margin-bottom: 2px;">Translation service</label>
+		<select id="translate-services" class="select_example" data-id="translator-service-id" title="Locale">
+			<option value="google" data-id="translator-google">
+				Google Translate
+			</option>
+			<option value="deepl" data-id="translator-deepl">
+				DeepL
+			</option>
+			<option value="apertium" data-id="translator-aperium">
+				Apertium
+			</option>
+		</select>
+	</div>
+
+</body>
+</html>

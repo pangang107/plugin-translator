@@ -463,17 +463,6 @@
 				btnReplace.id = "btn_replace";
 				setTimeout(function() {ifr.contentDocument.getElementById("body").appendChild(div);}, 100);
 
-
-				var changeServiceBtnContainer = ifr.contentDocument.createElement("div");
-				var changeServiceBtnLabel = ifr.contentDocument.createElement("label");
-				changeServiceBtnContainer.appendChild(changeServiceBtnLabel);
-				changeServiceBtnContainer.style.cssText += 'margin-left: 12px;'
-				changeServiceBtnContainer.classList.add("skiptranslate");
-				changeServiceBtnLabel.id = "change-service-btn";
-				changeServiceBtnLabel.innerHTML = "Change service";
-				changeServiceBtnLabel.style.cssText = "font-size: 11px; cursor:pointer; border-bottom: 1px dashed #444444; position: absolute; bottom: 10px; right: 12px; text-align: right;";
-				setTimeout(function() {ifr.contentDocument.getElementById("body").appendChild(changeServiceBtnContainer);}, 100);
-
 				setTimeout(function() {
                     btnReplace.onclick = function () {
                         var translatedTxt = ifr.contentDocument.getElementById("google_translate_element").outerText;
@@ -496,13 +485,6 @@
                             Api.ReplaceTextSmart(Asc.scope.arr);
                         });
                     }
-                });
-                setTimeout(function() {
-                    changeServiceBtnLabel.onclick = function() {
-                        $(elements.ifr_google).hide();
-                        sTranslateServiceType = '';
-                        $('#select-service').show();
-                    };
                 });
 				ifr.contentWindow.postMessage("update_scroll", '*');
 			}
@@ -542,6 +524,8 @@
 	};
 
     $(document).ready(function () {
+         sTranslateServiceType = localStorage.getItem("translator-service-id") || 'google';
+
         elements = {
             api_panel: document.getElementById("api-panel"),
             re_api: document.getElementById("re-api"),
@@ -550,41 +534,11 @@
             loader2: document.getElementById("loader-container2"),
             contentHolder: document.getElementById("display"),
             contentHolder2: document.getElementById("main_panel"),
-            change_container : document.getElementById("change-service-container"),
             deepl_panel : document.getElementById("deepl-panel"),
             apertium_panel : document.getElementById("apertium-panel"),
             ifr_google : document.getElementById("ifr-google-container")
 		};
 
-        $('#change-service-label').click(function() {
-            $('#select-service').show();
-            switch (sTranslateServiceType) {
-                case 'deepl': {
-                    $('#deepl-apertium-container').hide();
-                    $('#common-elements').hide();
-                    switchClass(elements.deepl_panel, 'display-none', true);
-                    switchClass(elements.change_container, 'display-none', true);
-                    switchClass(elements.re_api, 'display-none', true);
-                    switchClass(elements.api_panel, 'display-none', true);
-                }
-                case 'apertium': {
-                    $('#deepl-apertium-container').hide();
-                    $('#common-elements').hide();
-                    switchClass(elements.change_container, 'display-none', true);
-                    switchClass(elements.apertium_panel, 'display-none', true);
-                    break;
-                }
-                case 'google':
-                    $('#iframe-google').toggleClass('display-none');
-                    break;
-            }
-            sTranslateServiceType = '';
-        });
-
-        $('#save-service').click(function() {
-		    $('#select-service').hide();
-		    sTranslateServiceType = sTranslateServiceType === '' ? document.getElementById("translate-services").value : sTranslateServiceType;
-            localStorage.setItem($('#translate-services').attr('data-id'), sTranslateServiceType);
 		    switch (sTranslateServiceType) {
 		        case 'deepl':
 		            $('#deepl-apertium-container').show();
@@ -595,7 +549,6 @@
                         switchClass(elements.re_api, 'display-none', false);
                         $('#language-panel').show();
                         $('#common-elements').show();
-                        switchClass(elements.change_container, 'display-none', false);
                     }
                     else
                         apikey = '';
@@ -606,22 +559,20 @@
                     });
                     $('#deepl-apertium-container').show();
                     $('#common-elements').show();
-		            switchClass(elements.change_container, 'display-none', false);
 		            switchClass(elements.apertium_panel, 'display-none', false);
 		            GetAllLangPairs();
 		            break;
 		        }
-
 		        case 'google':
 		            $(elements.ifr_google).show();
 		            ProcessGoogle(txt);
                     break;
-		    }
+            }
 
 		    translatedText = [];
             if (txt !== '')
                 RunTranslate(txt);
-		});
+
         $('.select_example').select2({
 			minimumResultsForSearch: Infinity,
 			width: "100%"
