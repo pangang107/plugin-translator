@@ -19,7 +19,9 @@
 			minimumResultsForSearch: Infinity,
 			width: "100%"
 		});
-
+		sTranslateServiceType = localStorage.getItem("translator-service-id") || 'google';
+        $('.select_example').val(sTranslateServiceType);
+        $('.select_example').trigger('change');
 
     });
 })(window, undefined);
