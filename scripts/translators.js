@@ -672,11 +672,6 @@
                 this.select();
             }
         });
-
-        if (localStorage.getItem($('#translate-services').attr('data-id'))) {
-            sTranslateServiceType = localStorage.getItem($('#translate-services').attr('data-id'));
-            $('#save-service').trigger('click');
-        }
     });
 	window.Asc.plugin.button = function(id)
 	{
