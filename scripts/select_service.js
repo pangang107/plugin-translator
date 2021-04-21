@@ -1,7 +1,6 @@
 (function(window, undefined){
     window.Asc.plugin.init = function()
     {
-        this.resizeWindow(400, 130, 400, 130, 400, 130);
     };
     window.Asc.plugin.button = function(id)
     {
