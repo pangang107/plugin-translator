@@ -108,7 +108,6 @@
         DelInvalidChars(allParsedParas);
         if (IsLastTransate(allParsedParas))
             return false;
-        document.getElementById('txt_shower').innerHTML = "";
 
         switch (sTranslateServiceType) {
             case 'apertium': {
@@ -274,8 +273,6 @@
         return true;
     };
     function TranslateApertium(sourceLanguage, targetLanguage, oText) {
-        if (!$('#vanish_container').hasClass('display-none'))
-            $('#vanish_container').toggleClass('display-none');
         showLoader(elements, true);
         $.ajax({
             method: 'GET',
@@ -307,8 +304,6 @@
 
     // for deepl
     function TranslateDeepL(apikey, targetLanguage, sParams) {
-        if (!$('#vanish_container').hasClass('display-none'))
-            $('#vanish_container').toggleClass('display-none');
         showLoader(elements, true);
         $.ajax({
             method: 'POST',
