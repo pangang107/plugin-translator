@@ -476,8 +476,25 @@
                             });
                         }
                         Asc.scope.arr = allParsedParas;
-                        window.Asc.plugin.callCommand(function() {
-                            Api.ReplaceTextSmart(Asc.scope.arr);
+                        window.Asc.plugin.executeMethod("GetVersion", [], function(version) {
+                            if (version === undefined) {
+                                window.Asc.plugin.executeMethod("PasteText", [ifr.contentDocument.getElementById("google_translate_element").outerText]);
+                            }
+                            else {
+                                window.Asc.plugin.executeMethod("GetSelectionType", [], function(sType) {
+                                    switch (sType) {
+                                        case "none":
+                                        case "drawing":
+                                            window.Asc.plugin.executeMethod("PasteText", [ifr.contentDocument.getElementById("google_translate_element").outerText]);
+                                            break;
+                                        case "text":
+                                            window.Asc.plugin.callCommand(function() {
+                                                Api.ReplaceTextSmart(Asc.scope.arr);
+                                            });
+                                            break;
+                                    }
+                                });
+                            }
                         });
                     }
                 });
@@ -621,7 +638,34 @@
             translatedText = [];
             if (txt !== '')
                 RunTranslate(txt);
-        })
+        });
+        setTimeout(function() {
+            $('#paste').click(function () {
+                Asc.scope.arr = translatedText;
+                window.Asc.plugin.info.recalculate = true;
+
+                window.Asc.plugin.executeMethod("GetVersion", [], function(version) {
+                    if (version === undefined) {
+                        window.Asc.plugin.executeMethod("PasteText", [$("#txt_shower")[0].innerText]);
+                    }
+                    else {
+                        window.Asc.plugin.executeMethod("GetSelectionType", [], function(sType) {
+                            switch (sType) {
+                                case "none":
+                                case "drawing":
+                                    window.Asc.plugin.executeMethod("PasteText", [$("#txt_shower")[0].innerText]);
+                                    break;
+                                case "text":
+                                    window.Asc.plugin.callCommand(function() {
+                                        Api.ReplaceTextSmart(Asc.scope.arr);
+                                    });
+                                    break;
+                            }
+                        });
+                    }
+                });
+            });
+        });
 
         // for deepl
         $('#save').on('click', function() {
