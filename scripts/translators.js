@@ -287,7 +287,7 @@
                 container.innerHTML = "";
                 for (var nText = 0; nText < arrTranslatedText.length; nText++) {
                     if (arrTranslatedText[nText] !== "" && arrTranslatedText[nText])
-                        container.innerHTML += arrTranslatedText[nText] + '<br>';
+                        container.innerHTML += escape(arrTranslatedText[nText]) + '<br>';
                 }
                 if ($('#vanish_container').hasClass('display-none'))
                     $('#vanish_container').toggleClass('display-none');
@@ -337,7 +337,7 @@
                 translatedText.push(oResponse.translations[nText].text);
 
                 if (oResponse.translations[nText].text !== "")
-                    container.innerHTML += oResponse.translations[nText].text + '<br>';
+                    container.innerHTML += escape(oResponse.translations[nText].text) + '<br>';
             }
 
             if ($('#vanish_container').hasClass('display-none'))
@@ -427,7 +427,7 @@
 			ifr.onload = function() {
 				if (ifr.contentWindow.document.readyState == 'complete')
 					setTimeout(function() {
-						ifr.contentDocument.getElementById("google_translate_element").innerHTML = sText;
+						ifr.contentDocument.getElementById("google_translate_element").innerHTML = escape(sText);
 						if (sText.length)
 							ifr.contentDocument.getElementById("div_btn").classList.remove("hidden");
 					}, 500);
